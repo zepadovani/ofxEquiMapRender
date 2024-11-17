@@ -2,6 +2,8 @@
 
 #include "ofMain.h"
 #include "ofxEquiMapRender.h"
+#include "ofEasyCam.h"
+
 
 class ofApp : public ofBaseApp, public ofxEquiMapRender::Scene {
     ofxEquiMapRender::Renderer em;
@@ -11,6 +13,10 @@ class ofApp : public ofBaseApp, public ofxEquiMapRender::Scene {
     std::vector<ofColor> colors; // Vetor para armazenar as cores
 
     bool bSaveEquiRect = false; // Variável para controlar o salvamento da imagem
+    bool bSaveCubeMap = false; // Variável para controlar o salvamento da imagem
+    bool equiRectangularMode = false;
+    ofEasyCam easyCam;
+    
 
 public:
     void setup();
