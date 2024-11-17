@@ -26,20 +26,54 @@ namespace ofxEquiMapRender {
         warpShader.setupShaderFromSource(GL_FRAGMENT_SHADER, warp_frag_shader_str);
         warpShader.linkProgram();
         registerScene(s);
+
+        warpedFbo.allocate(size*2, size, internalformat);
+        
     }
 
-    void Renderer::render() {
-        if (!scene) {
+    void Renderer::setRenderEnabled(bool enable) {
+        renderEnabled = enable;
+    }
+
+    bool Renderer::isRenderEnabled() const {
+        return renderEnabled;
+    }
+
+
+    void Renderer::renderToCubeMap() {
+        if (!scene || !renderEnabled) {
             return;
         }
+        
         for (int i = 0; i < 6; i++) {
-            cm.beginDrawingInto3D( GL_TEXTURE_CUBE_MAP_POSITIVE_X + i );
+            cm.beginDrawingInto3D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i);
             ofClear(0);
-            // work around for ofLight issue caused by ofxCubeMap
             ofLoadViewMatrix(ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
             scene->drawEquiScene();
             cm.endDrawingInto3D();
         }
+    }
+
+    void Renderer::drawWarpedToFbo() {
+            if (!scene || !renderEnabled) {
+                return;
+            }
+            warpedFbo.begin();
+            ofClear(0); // Clear the FBO
+            warpShader.begin();
+            warpShader.setUniform1i("envMap", 0);
+            cm.drawFace(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, 0, warpedFbo.getWidth(), warpedFbo.getHeight()); // Draw to FBO's dimensions
+            warpShader.end();
+            warpedFbo.end();
+    }
+
+    void Renderer::drawWarpedFbo(float x, float y, float w, float h) {
+            // Draw the FBO's contents to the screen
+            warpedFbo.draw(x, y, w, h); 
+        }
+
+    void Renderer::render() {
+        renderToCubeMap();
     }
     
     void Renderer::draw(float x, float y, float w, float h) {
@@ -47,6 +81,10 @@ namespace ofxEquiMapRender {
         warpShader.setUniform1i("envMap", 0);
         cm.drawFace(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, x, y, w, h);
         warpShader.end();
+
+
+
+
     }
 
     void Renderer::setPosition(const ofVec3f& p) {
@@ -65,6 +103,16 @@ namespace ofxEquiMapRender {
     ofxCubeMapOld& Renderer::getCubeMap() {
         return cm;
     }
+
+    std::vector<ofFbo>& Renderer::getFbos() {
+        return fbos;
+    }
+
+    ofFbo& Renderer::getWarpedFbo() {
+        return warpedFbo;
+    }
+    
+
     
     void CustomFboRenderer::setup(int size, Scene* s, int internalformat, int numSamples)
     {
@@ -85,7 +133,6 @@ namespace ofxEquiMapRender {
             fbos[i].allocate(fbo_settings);
         }
     }
-    
 
     void CustomFboRenderer::render() {
         for (int i = 0; i < 6; ++i) {
@@ -116,9 +163,10 @@ namespace ofxEquiMapRender {
         }
     }
 
-    std::vector<ofFbo>& CustomFboRenderer::getFbos() {
-        return fbos;
-    }
+//    std::vector<ofFbo>& CustomRenderer::getFbos() {
+//         return fbos;
+//     }
+    
 
     // const std::vector<ofFbo>& CustomFboRenderer::getFbos() {
     //     return fbos;

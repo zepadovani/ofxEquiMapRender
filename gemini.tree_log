@@ -531,6 +531,10 @@ void ofApp::setup() {
     ofClear(0);
     em.setup(1024, this);
     em2.setup(1024, this, GL_RGB, 4);
+    easyCam.setDistance(500); // Inicializa a easyCam
+    bSaveEquiRect = false;
+    bSaveCubeMap = false;
+    equiRectangularMode = false;
 
     // Cria 200 cubos com posições e tamanhos aleatórios
     for (int i = 0; i < 30; i++) {
@@ -564,38 +568,73 @@ void ofApp::drawEquiScene() {
 }
 
 void ofApp::update() {
-    em.render();
-    em2.render();
+    if(em.isRenderEnabled()){ // Só renderiza o cubemap se estiver habilitado
+        em.render(); // Renderiza para o cubemap (chama renderToCubeMap() internamente)
+    }
+
+    if(em2.isRenderEnabled()){ // Só renderiza o cubemap se estiver habilitado
+        em2.render(); // Renderiza para o cubemap (chama renderToCubeMap() internamente)
+    }
+    // em.render();
+    // em2.render();
     std::vector<string> faces = {"X+", "X-", "Y+", "Y-", "Z+", "Z-"};
 
     if (bSaveEquiRect) {
-        ofPixels pixels;
-        std::vector<ofFbo>& fbos = em2.getFbos(); // Pega os FBOs da `em2`
-        for (std::size_t i = 0; i < fbos.size(); i++) {
-            fbos[i].readToPixels(pixels); // Lê os pixels de cada FBO
-            ofSaveImage(pixels, ofToString(i) + "_cubeMapFace_" + faces[i] + ".png"); // Salva a imagem
+            ofPixels pixels;
+            // Lê os pixels do FBO associado à face positiva Z
+            em2.getCubeMap().getFaceFbo(GL_TEXTURE_CUBE_MAP_POSITIVE_Z).readToPixels(pixels);
+            ofSaveImage(pixels, "equiRectangular.png");
+            bSaveEquiRect = false;
         }
-        
-        bSaveEquiRect = false; 
-    }
+
+        if (bSaveCubeMap) {
+            ofPixels pixels;
+            std::vector<string> faces = {"X+", "X-", "Y+", "Y-", "Z+", "Z-"};
+            for (int i = 0; i < 6; i++) {
+                em2.getCubeMap().getFaceFbo(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i).readToPixels(pixels); // Lê os pixels de cada FBO
+                ofSaveImage(pixels, ofToString(i) + "_cubeMapFace_" + faces[i] + ".png"); // Salva a imagem
+            }
+            bSaveCubeMap = false;
+        }
 }
 
 void ofApp::draw() {
     ofClear(0);
-    if (ofGetKeyPressed(' ')) {
-        em.draw(0, 0, ofGetWidth(), ofGetHeight());
-        ofDrawBitmapStringHighlight("Renderer", 10, 40);
+
+    if(equiRectangularMode){
+
+        if (ofGetKeyPressed(' ')) {
+            em.draw(0, 0, ofGetWidth(), ofGetHeight());
+            ofDrawBitmapStringHighlight("Renderer", 10, 40);
+        } else {
+            em2.draw(0, 0, ofGetWidth(), ofGetHeight());
+            ofDrawBitmapStringHighlight("CustomFboRenderer", 10, 40);
+        }
     } else {
-        em2.draw(0, 0, ofGetWidth(), ofGetHeight());
-        ofDrawBitmapStringHighlight("CustomFboRenderer", 10, 40);
+        easyCam.begin();
+        drawEquiScene();
+        easyCam.end();
     }
 
     ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 10, 20);
 }
 
 void ofApp::keyPressed(int key) {
+ 
     if (key == 's') {
         bSaveEquiRect = true;
+        bSaveCubeMap = true;
+    };
+    
+    if (key == 'm') { // Alterna entre os modos de visualização com a tecla 'm'
+        equiRectangularMode = !equiRectangularMode;
+        if (equiRectangularMode) {
+            // Maximiza a janela para o modo equirretangular
+             ofSetWindowShape(2048, 1024); // Resolução típica equirretangular
+        } else {
+           // Volta para as dimensões padrão (defina as dimensões desejadas)
+            ofSetWindowShape(1088, 720);
+        }
     }
 }
 ########## END OF ./example_2/src/ofApp.cpp 
@@ -606,6 +645,8 @@ void ofApp::keyPressed(int key) {
 
 #include "ofMain.h"
 #include "ofxEquiMapRender.h"
+#include "ofEasyCam.h"
+
 
 class ofApp : public ofBaseApp, public ofxEquiMapRender::Scene {
     ofxEquiMapRender::Renderer em;
@@ -615,6 +656,10 @@ class ofApp : public ofBaseApp, public ofxEquiMapRender::Scene {
     std::vector<ofColor> colors; // Vetor para armazenar as cores
 
     bool bSaveEquiRect = false; // Variável para controlar o salvamento da imagem
+    bool bSaveCubeMap = false; // Variável para controlar o salvamento da imagem
+    bool equiRectangularMode = false;
+    ofEasyCam easyCam;
+    
 
 public:
     void setup();
@@ -1346,6 +1391,10 @@ void ofxCubeMapOld::setupSkyBoxVertices()
 	
 }
 
+// Em ofxCubeMapOld.cpp
+ofFbo& ofxCubeMapOld::getFaceFbo(GLuint face) {
+    return fbo; // Retorna o FBO usado para renderizar as faces
+}
 ########## END OF ./src/ofxCubeMapOld.cpp 
 
 
@@ -1454,6 +1503,8 @@ class ofxCubeMapOld
 		ofMatrix4x4 getProjectionMatrix();
 		ofMatrix4x4 getLookAtMatrixForFace( GLuint _face );
 
+		ofFbo& getFaceFbo(GLuint face);
+
 	private:
 		
 		string getDescriptiveStringForFace( GLuint _face );
@@ -1519,18 +1570,31 @@ namespace ofxEquiMapRender {
         registerScene(s);
     }
 
-    void Renderer::render() {
-        if (!scene) {
+    void Renderer::setRenderEnabled(bool enable) {
+        renderEnabled = enable;
+    }
+
+    bool Renderer::isRenderEnabled() const {
+        return renderEnabled;
+    }
+
+
+    void Renderer::renderToCubeMap() {
+        if (!scene || !renderEnabled) {
             return;
         }
+        
         for (int i = 0; i < 6; i++) {
-            cm.beginDrawingInto3D( GL_TEXTURE_CUBE_MAP_POSITIVE_X + i );
+            cm.beginDrawingInto3D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i);
             ofClear(0);
-            // work around for ofLight issue caused by ofxCubeMap
             ofLoadViewMatrix(ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
             scene->drawEquiScene();
             cm.endDrawingInto3D();
         }
+    }
+
+    void Renderer::render() {
+        renderToCubeMap();
     }
     
     void Renderer::draw(float x, float y, float w, float h) {
@@ -1637,9 +1701,10 @@ namespace ofxEquiMapRender
     class Renderer
     {
     protected:
-        Scene* scene = NULL;
+        Scene* scene = nullptr;
         ofxCubeMapOld cm;
         ofShader warpShader;
+        bool renderEnabled = true; 
     public:
         void setup(int size, Scene* s, int internalformat = GL_RGB);
         virtual void render();
@@ -1650,7 +1715,9 @@ namespace ofxEquiMapRender
         void setPosition(float x, float y, float z);
         ofxCubeMapOld& getCubeMap();
 
-        
+        void setRenderEnabled(bool enable);
+        bool isRenderEnabled() const;
+        void renderToCubeMap();
 
         // ofPixels getPixels() {
         //     ofPixels pixels;

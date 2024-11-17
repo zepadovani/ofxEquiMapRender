@@ -674,3 +674,8 @@ void ofxCubeMapOld::setupSkyBoxVertices()
 	cubemapVertices.push_back( ofVec3f(fExtent, fExtent, -fExtent) );
 	
 }
+
+// Em ofxCubeMapOld.cpp
+ofFbo& ofxCubeMapOld::getFaceFbo(GLuint face) {
+    return fbo; // Retorna o FBO usado para renderizar as faces
+}

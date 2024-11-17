@@ -102,6 +102,8 @@ class ofxCubeMapOld
 		ofMatrix4x4 getProjectionMatrix();
 		ofMatrix4x4 getLookAtMatrixForFace( GLuint _face );
 
+		ofFbo& getFaceFbo(GLuint face);
+
 	private:
 		
 		string getDescriptiveStringForFace( GLuint _face );
