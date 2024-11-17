@@ -1,0 +1,1680 @@
+
+
+########## START of Project directory tree (tabs represent level)
+./
+	gemini.tree_log
+	LICENSE
+	example/
+		addons.make
+		config.make
+		Makefile
+		bin/
+			data/
+		src/
+			ofApp.cpp
+			ofApp.h
+			ofMain.cpp
+	example_2/
+		addons.make
+		config.make
+		Makefile
+		bin/
+			data/
+		obj/
+			linux64/
+		src/
+			ofApp.cpp
+			ofApp.h
+			ofMain.cpp
+	shaders/
+		CubeMap.frag
+		CubeMap.vert
+	src/
+		ofxCubeMapOld.cpp
+		ofxCubeMapOld.h
+		ofxEquiMapRender.cpp
+		ofxEquiMapRender.h
+########## END of Project directory tree
+
+
+########## START OF ./gemini.tree_log
+
+
+########## START of Project directory tree (tabs represent level)
+./
+	gemini.tree_log
+	LICENSE
+	example/
+		addons.make
+		config.make
+		Makefile
+		bin/
+			data/
+		src/
+			ofApp.cpp
+			ofApp.h
+			ofMain.cpp
+	example_2/
+		addons.make
+		config.make
+		Makefile
+		bin/
+			data/
+		obj/
+			linux64/
+		src/
+			ofApp.cpp
+			ofApp.h
+			ofMain.cpp
+	shaders/
+		CubeMap.frag
+		CubeMap.vert
+	src/
+		ofxCubeMapOld.cpp
+		ofxCubeMapOld.h
+		ofxEquiMapRender.cpp
+		ofxEquiMapRender.h
+########## END of Project directory tree
+
+########## END OF ./gemini.tree_log 
+
+
+########## START OF ./LICENSE
+MIT License
+
+Copyright (c) 2024 José Henrique Padovani
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+########## END OF ./LICENSE 
+
+
+########## START OF ./example/addons.make
+ofxEquiMapRender
+
+########## END OF ./example/addons.make 
+
+
+########## START OF ./example/config.make
+################################################################################
+# CONFIGURE PROJECT MAKEFILE (optional)
+#   This file is where we make project specific configurations.
+################################################################################
+
+################################################################################
+# OF ROOT
+#   The location of your root openFrameworks installation
+#       (default) OF_ROOT = ../../.. 
+################################################################################
+# OF_ROOT = ../../..
+
+################################################################################
+# PROJECT ROOT
+#   The location of the project - a starting place for searching for files
+#       (default) PROJECT_ROOT = . (this directory)
+#    
+################################################################################
+# PROJECT_ROOT = .
+
+################################################################################
+# PROJECT SPECIFIC CHECKS
+#   This is a project defined section to create internal makefile flags to 
+#   conditionally enable or disable the addition of various features within 
+#   this makefile.  For instance, if you want to make changes based on whether
+#   GTK is installed, one might test that here and create a variable to check. 
+################################################################################
+# None
+
+################################################################################
+# PROJECT EXTERNAL SOURCE PATHS
+#   These are fully qualified paths that are not within the PROJECT_ROOT folder.
+#   Like source folders in the PROJECT_ROOT, these paths are subject to 
+#   exlclusion via the PROJECT_EXLCUSIONS list.
+#
+#     (default) PROJECT_EXTERNAL_SOURCE_PATHS = (blank) 
+#
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+# PROJECT_EXTERNAL_SOURCE_PATHS = 
+
+################################################################################
+# PROJECT EXCLUSIONS
+#   These makefiles assume that all folders in your current project directory 
+#   and any listed in the PROJECT_EXTERNAL_SOURCH_PATHS are are valid locations
+#   to look for source code. The any folders or files that match any of the 
+#   items in the PROJECT_EXCLUSIONS list below will be ignored.
+#
+#   Each item in the PROJECT_EXCLUSIONS list will be treated as a complete 
+#   string unless teh user adds a wildcard (%) operator to match subdirectories.
+#   GNU make only allows one wildcard for matching.  The second wildcard (%) is
+#   treated literally.
+#
+#      (default) PROJECT_EXCLUSIONS = (blank)
+#
+#		Will automatically exclude the following:
+#
+#			$(PROJECT_ROOT)/bin%
+#			$(PROJECT_ROOT)/obj%
+#			$(PROJECT_ROOT)/%.xcodeproj
+#
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+# PROJECT_EXCLUSIONS =
+
+################################################################################
+# PROJECT LINKER FLAGS
+#	These flags will be sent to the linker when compiling the executable.
+#
+#		(default) PROJECT_LDFLAGS = -Wl,-rpath=./libs
+#
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+
+# Currently, shared libraries that are needed are copied to the 
+# $(PROJECT_ROOT)/bin/libs directory.  The following LDFLAGS tell the linker to
+# add a runtime path to search for those shared libraries, since they aren't 
+# incorporated directly into the final executable application binary.
+# TODO: should this be a default setting?
+# PROJECT_LDFLAGS=-Wl,-rpath=./libs
+
+################################################################################
+# PROJECT DEFINES
+#   Create a space-delimited list of DEFINES. The list will be converted into 
+#   CFLAGS with the "-D" flag later in the makefile.
+#
+#		(default) PROJECT_DEFINES = (blank)
+#
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+# PROJECT_DEFINES = 
+
+################################################################################
+# PROJECT CFLAGS
+#   This is a list of fully qualified CFLAGS required when compiling for this 
+#   project.  These CFLAGS will be used IN ADDITION TO the PLATFORM_CFLAGS 
+#   defined in your platform specific core configuration files. These flags are
+#   presented to the compiler BEFORE the PROJECT_OPTIMIZATION_CFLAGS below. 
+#
+#		(default) PROJECT_CFLAGS = (blank)
+#
+#   Note: Before adding PROJECT_CFLAGS, note that the PLATFORM_CFLAGS defined in 
+#   your platform specific configuration file will be applied by default and 
+#   further flags here may not be needed.
+#
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+# PROJECT_CFLAGS = 
+
+################################################################################
+# PROJECT OPTIMIZATION CFLAGS
+#   These are lists of CFLAGS that are target-specific.  While any flags could 
+#   be conditionally added, they are usually limited to optimization flags. 
+#   These flags are added BEFORE the PROJECT_CFLAGS.
+#
+#   PROJECT_OPTIMIZATION_CFLAGS_RELEASE flags are only applied to RELEASE targets.
+#
+#		(default) PROJECT_OPTIMIZATION_CFLAGS_RELEASE = (blank)
+#
+#   PROJECT_OPTIMIZATION_CFLAGS_DEBUG flags are only applied to DEBUG targets.
+#
+#		(default) PROJECT_OPTIMIZATION_CFLAGS_DEBUG = (blank)
+#
+#   Note: Before adding PROJECT_OPTIMIZATION_CFLAGS, please note that the 
+#   PLATFORM_OPTIMIZATION_CFLAGS defined in your platform specific configuration 
+#   file will be applied by default and further optimization flags here may not 
+#   be needed.
+#
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+# PROJECT_OPTIMIZATION_CFLAGS_RELEASE = 
+# PROJECT_OPTIMIZATION_CFLAGS_DEBUG = 
+
+################################################################################
+# PROJECT COMPILERS
+#   Custom compilers can be set for CC and CXX
+#		(default) PROJECT_CXX = (blank)
+#		(default) PROJECT_CC = (blank)
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+# PROJECT_CXX = 
+# PROJECT_CC = 
+
+########## END OF ./example/config.make 
+
+
+########## START OF ./example/Makefile
+# Attempt to load a config.make file.
+# If none is found, project defaults in config.project.make will be used.
+ifneq ($(wildcard config.make),)
+	include config.make
+endif
+
+# make sure the the OF_ROOT location is defined
+ifndef OF_ROOT
+    OF_ROOT=../../..
+endif
+
+# call the project makefile!
+include $(OF_ROOT)/libs/openFrameworksCompiled/project/makefileCommon/compile.project.mk
+
+########## END OF ./example/Makefile 
+
+
+########## START OF ./example/src/ofApp.cpp
+#include "ofApp.h"
+
+void ofApp::setup() {
+    ofSetVerticalSync(true);
+    ofSetFrameRate(60);
+    ofClear(0);
+    em.setup(1024, this);
+    em2.setup(1024, this, GL_RGB, 4);
+    ofSpherePrimitive p(1000, 24);
+    m = p.getMesh();
+}
+
+void ofApp::drawEquiScene() {
+    ofPushStyle();
+    ofSetLineWidth(3);
+    ofSetColor(192);
+    m.drawWireframe();
+    ofPopStyle();
+}
+
+void ofApp::update() {
+    em.render();
+    em2.render();
+}
+
+void ofApp::draw() {
+    ofClear(0);
+    if (ofGetKeyPressed(' ')) {
+        em.draw(0, 0, ofGetWidth(), ofGetHeight());
+        ofDrawBitmapStringHighlight("Renderer", 10, 40);
+    } else {
+        em2.draw(0, 0, ofGetWidth(), ofGetHeight());
+        ofDrawBitmapStringHighlight("CustomFboRenderer", 10, 40);
+    }
+
+    ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 10, 20);
+}
+########## END OF ./example/src/ofApp.cpp 
+
+
+########## START OF ./example/src/ofApp.h
+#pragma once
+
+#include "ofMain.h"
+#include "ofxEquiMapRender.h"
+
+class ofApp : public ofBaseApp, public ofxEquiMapRender::Scene {
+    ofxEquiMapRender::Renderer em;
+    ofxEquiMapRender::CustomFboRenderer em2;
+
+    std::vector<ofBoxPrimitive> boxes;
+    std::vector<ofColor> colors; // Vetor para armazenar as cores
+    ofVboMesh m;
+
+public:
+    void setup();
+    void update();
+    void draw();
+    void drawEquiScene();
+};
+########## END OF ./example/src/ofApp.h 
+
+
+########## START OF ./example/src/ofMain.cpp
+#include "ofMain.h"
+#include "ofApp.h"
+
+int main() {
+    ofSetupOpenGL(2048, 1024, OF_WINDOW);
+    ofRunApp(new ofApp());
+}
+########## END OF ./example/src/ofMain.cpp 
+
+
+########## START OF ./example_2/addons.make
+ofxEquiMapRender
+
+########## END OF ./example_2/addons.make 
+
+
+########## START OF ./example_2/config.make
+################################################################################
+# CONFIGURE PROJECT MAKEFILE (optional)
+#   This file is where we make project specific configurations.
+################################################################################
+
+################################################################################
+# OF ROOT
+#   The location of your root openFrameworks installation
+#       (default) OF_ROOT = ../../.. 
+################################################################################
+# OF_ROOT = ../../..
+
+################################################################################
+# PROJECT ROOT
+#   The location of the project - a starting place for searching for files
+#       (default) PROJECT_ROOT = . (this directory)
+#    
+################################################################################
+# PROJECT_ROOT = .
+
+################################################################################
+# PROJECT SPECIFIC CHECKS
+#   This is a project defined section to create internal makefile flags to 
+#   conditionally enable or disable the addition of various features within 
+#   this makefile.  For instance, if you want to make changes based on whether
+#   GTK is installed, one might test that here and create a variable to check. 
+################################################################################
+# None
+
+################################################################################
+# PROJECT EXTERNAL SOURCE PATHS
+#   These are fully qualified paths that are not within the PROJECT_ROOT folder.
+#   Like source folders in the PROJECT_ROOT, these paths are subject to 
+#   exlclusion via the PROJECT_EXLCUSIONS list.
+#
+#     (default) PROJECT_EXTERNAL_SOURCE_PATHS = (blank) 
+#
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+# PROJECT_EXTERNAL_SOURCE_PATHS = 
+
+################################################################################
+# PROJECT EXCLUSIONS
+#   These makefiles assume that all folders in your current project directory 
+#   and any listed in the PROJECT_EXTERNAL_SOURCH_PATHS are are valid locations
+#   to look for source code. The any folders or files that match any of the 
+#   items in the PROJECT_EXCLUSIONS list below will be ignored.
+#
+#   Each item in the PROJECT_EXCLUSIONS list will be treated as a complete 
+#   string unless teh user adds a wildcard (%) operator to match subdirectories.
+#   GNU make only allows one wildcard for matching.  The second wildcard (%) is
+#   treated literally.
+#
+#      (default) PROJECT_EXCLUSIONS = (blank)
+#
+#		Will automatically exclude the following:
+#
+#			$(PROJECT_ROOT)/bin%
+#			$(PROJECT_ROOT)/obj%
+#			$(PROJECT_ROOT)/%.xcodeproj
+#
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+# PROJECT_EXCLUSIONS =
+
+################################################################################
+# PROJECT LINKER FLAGS
+#	These flags will be sent to the linker when compiling the executable.
+#
+#		(default) PROJECT_LDFLAGS = -Wl,-rpath=./libs
+#
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+
+# Currently, shared libraries that are needed are copied to the 
+# $(PROJECT_ROOT)/bin/libs directory.  The following LDFLAGS tell the linker to
+# add a runtime path to search for those shared libraries, since they aren't 
+# incorporated directly into the final executable application binary.
+# TODO: should this be a default setting?
+# PROJECT_LDFLAGS=-Wl,-rpath=./libs
+
+################################################################################
+# PROJECT DEFINES
+#   Create a space-delimited list of DEFINES. The list will be converted into 
+#   CFLAGS with the "-D" flag later in the makefile.
+#
+#		(default) PROJECT_DEFINES = (blank)
+#
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+# PROJECT_DEFINES = 
+
+################################################################################
+# PROJECT CFLAGS
+#   This is a list of fully qualified CFLAGS required when compiling for this 
+#   project.  These CFLAGS will be used IN ADDITION TO the PLATFORM_CFLAGS 
+#   defined in your platform specific core configuration files. These flags are
+#   presented to the compiler BEFORE the PROJECT_OPTIMIZATION_CFLAGS below. 
+#
+#		(default) PROJECT_CFLAGS = (blank)
+#
+#   Note: Before adding PROJECT_CFLAGS, note that the PLATFORM_CFLAGS defined in 
+#   your platform specific configuration file will be applied by default and 
+#   further flags here may not be needed.
+#
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+# PROJECT_CFLAGS = 
+
+################################################################################
+# PROJECT OPTIMIZATION CFLAGS
+#   These are lists of CFLAGS that are target-specific.  While any flags could 
+#   be conditionally added, they are usually limited to optimization flags. 
+#   These flags are added BEFORE the PROJECT_CFLAGS.
+#
+#   PROJECT_OPTIMIZATION_CFLAGS_RELEASE flags are only applied to RELEASE targets.
+#
+#		(default) PROJECT_OPTIMIZATION_CFLAGS_RELEASE = (blank)
+#
+#   PROJECT_OPTIMIZATION_CFLAGS_DEBUG flags are only applied to DEBUG targets.
+#
+#		(default) PROJECT_OPTIMIZATION_CFLAGS_DEBUG = (blank)
+#
+#   Note: Before adding PROJECT_OPTIMIZATION_CFLAGS, please note that the 
+#   PLATFORM_OPTIMIZATION_CFLAGS defined in your platform specific configuration 
+#   file will be applied by default and further optimization flags here may not 
+#   be needed.
+#
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+# PROJECT_OPTIMIZATION_CFLAGS_RELEASE = 
+# PROJECT_OPTIMIZATION_CFLAGS_DEBUG = 
+
+################################################################################
+# PROJECT COMPILERS
+#   Custom compilers can be set for CC and CXX
+#		(default) PROJECT_CXX = (blank)
+#		(default) PROJECT_CC = (blank)
+#   Note: Leave a leading space when adding list items with the += operator
+################################################################################
+# PROJECT_CXX = 
+# PROJECT_CC = 
+
+########## END OF ./example_2/config.make 
+
+
+########## START OF ./example_2/Makefile
+# Attempt to load a config.make file.
+# If none is found, project defaults in config.project.make will be used.
+ifneq ($(wildcard config.make),)
+	include config.make
+endif
+
+# make sure the the OF_ROOT location is defined
+ifndef OF_ROOT
+    OF_ROOT=../../..
+endif
+
+# call the project makefile!
+include $(OF_ROOT)/libs/openFrameworksCompiled/project/makefileCommon/compile.project.mk
+
+########## END OF ./example_2/Makefile 
+
+
+########## START OF ./example_2/src/ofApp.cpp
+#include "ofApp.h"
+
+void ofApp::setup() {
+    ofSetVerticalSync(true);
+    ofSetFrameRate(60);
+    ofClear(0);
+    em.setup(1024, this);
+    em2.setup(1024, this, GL_RGB, 4);
+
+    // Cria 200 cubos com posições e tamanhos aleatórios
+    for (int i = 0; i < 30; i++) {
+        float size = ofRandom(50, 200);
+        float x = ofRandom(-500, 500);
+        float y = ofRandom(-300, 300);
+        float z = ofRandom(-500, 500);
+
+        ofBoxPrimitive box;
+        box.set(size);
+        box.setPosition(x, y, z);
+        boxes.push_back(box);
+
+        // Gera uma cor aleatória e armazena no vetor
+        ofColor color(ofRandom(255), ofRandom(255), ofRandom(255));
+        colors.push_back(color);
+    }
+}
+
+void ofApp::drawEquiScene() {
+    ofPushStyle();
+    ofSetLineWidth(3);
+
+    // Desenha todos os cubos com as cores geradas na inicialização
+    for (std::size_t i = 0; i < boxes.size(); i++) {
+        ofSetColor(colors[i]); // Usa a cor correspondente do vetor
+        boxes[i].draw();
+    }
+
+    ofPopStyle();
+}
+
+void ofApp::update() {
+    em.render();
+    em2.render();
+    std::vector<string> faces = {"X+", "X-", "Y+", "Y-", "Z+", "Z-"};
+
+    if (bSaveEquiRect) {
+        ofPixels pixels;
+        std::vector<ofFbo>& fbos = em2.getFbos(); // Pega os FBOs da `em2`
+        for (std::size_t i = 0; i < fbos.size(); i++) {
+            fbos[i].readToPixels(pixels); // Lê os pixels de cada FBO
+            ofSaveImage(pixels, ofToString(i) + "_cubeMapFace_" + faces[i] + ".png"); // Salva a imagem
+        }
+        
+        bSaveEquiRect = false; 
+    }
+}
+
+void ofApp::draw() {
+    ofClear(0);
+    if (ofGetKeyPressed(' ')) {
+        em.draw(0, 0, ofGetWidth(), ofGetHeight());
+        ofDrawBitmapStringHighlight("Renderer", 10, 40);
+    } else {
+        em2.draw(0, 0, ofGetWidth(), ofGetHeight());
+        ofDrawBitmapStringHighlight("CustomFboRenderer", 10, 40);
+    }
+
+    ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 10, 20);
+}
+
+void ofApp::keyPressed(int key) {
+    if (key == 's') {
+        bSaveEquiRect = true;
+    }
+}
+########## END OF ./example_2/src/ofApp.cpp 
+
+
+########## START OF ./example_2/src/ofApp.h
+#pragma once
+
+#include "ofMain.h"
+#include "ofxEquiMapRender.h"
+
+class ofApp : public ofBaseApp, public ofxEquiMapRender::Scene {
+    ofxEquiMapRender::Renderer em;
+    ofxEquiMapRender::CustomFboRenderer em2;
+
+    std::vector<ofBoxPrimitive> boxes;
+    std::vector<ofColor> colors; // Vetor para armazenar as cores
+
+    bool bSaveEquiRect = false; // Variável para controlar o salvamento da imagem
+
+public:
+    void setup();
+    void update();
+    void draw();
+    void keyPressed(int key);
+    void drawEquiScene();
+};
+########## END OF ./example_2/src/ofApp.h 
+
+
+########## START OF ./example_2/src/ofMain.cpp
+#include "ofMain.h"
+#include "ofApp.h"
+
+int main() {
+    ofSetupOpenGL(1920, 960, OF_WINDOW);
+    ofRunApp(new ofApp());
+}
+########## END OF ./example_2/src/ofMain.cpp 
+
+
+########## START OF ./shaders/CubeMap.frag
+uniform samplerCube EnvMap;
+
+varying vec3  texcoord;
+
+void main (void)
+{
+   
+    vec3 envColor = vec3 (textureCube(EnvMap, texcoord));
+	//vec3 envColor = vec3 (textureCube(EnvMap, gl_TexCoord[0]));
+
+    gl_FragColor = vec4 (envColor, 1.0);
+}
+########## END OF ./shaders/CubeMap.frag 
+
+
+########## START OF ./shaders/CubeMap.vert
+varying vec3  texcoord;
+
+void main(void) 
+{
+ 	vec4	texcoord0 = gl_ModelViewMatrix * gl_Vertex;
+	//texcoord = texcoord0.xyz;
+	texcoord = normalize(gl_Vertex.xyz);
+
+    gl_Position    = ftransform();
+   
+}
+########## END OF ./shaders/CubeMap.vert 
+
+
+########## START OF ./src/ofxCubeMapOld.cpp
+
+#include "ofxCubeMapOld.h"
+
+//--------------------------------------------------------------
+ofxCubeMapOld::ofxCubeMapOld()
+{
+	fov 	= 90.0f;
+	nearZ 	= 0.01f;
+	farZ 	= 1024.0f;
+	
+	cubeMapCamerasRenderPosition.set( 0.0f, 0.0f, 0.0f );
+	
+	setupSkyBoxVertices();
+	
+}
+
+//--------------------------------------------------------------
+// these should all be the same size and all power of two
+void ofxCubeMapOld::loadImages( string pos_x, string neg_x,
+							 string pos_y, string neg_y,
+							 string pos_z, string neg_z )
+{	
+	
+	// We don't want the texture border hack to be on
+	/*bool wantsTextureBorderHack = false;
+	if( ofGetTextureEdgeHackEnabled() ) {
+		wantsTextureBorderHack = true;
+		ofDisableTextureEdgeHack();
+		ofLogVerbose() << "ofxCubeMapOld:loadImages (string version), disabled texture hack, re-enabling when done.";
+	}*/
+	
+	ofImage images[6];	
+	bool loaded1 = images[0].loadImage(pos_x);
+	bool loaded2 = images[1].loadImage(neg_x);
+	bool loaded3 = images[2].loadImage(pos_y);
+	bool loaded4 = images[3].loadImage(neg_y);
+	bool loaded5 = images[4].loadImage(pos_z);
+	bool loaded6 = images[5].loadImage(neg_z);
+	
+	if( loaded1 && loaded2 && loaded3 && loaded4 && loaded5 && loaded6 ) {}
+	else { ofLogError() << "ofxCubeMapOld: failed to load one of the cubemaps!"; }
+	
+	loadFromOfImages(images[0],
+					 images[1],
+					 images[2],
+					 images[3],
+					 images[4],
+					 images[5]);
+	
+	/* if( wantsTextureBorderHack ) {
+		ofEnableTextureEdgeHack();
+	} */
+	
+}
+
+//--------------------------------------------------------------
+
+void ofxCubeMapOld::loadFromOfImages(  ofImage pos_x, ofImage neg_x,
+								  	ofImage pos_y, ofImage neg_y,
+								  	ofImage pos_z, ofImage neg_z )
+{	
+	
+	//_ofEnable( GL_TEXTURE_CUBE_MAP_SEAMLESS );
+	
+	//create a texture object
+	glGenTextures(1, &textureObjectID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureObjectID);
+	
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		
+#ifndef TARGET_OPENGLES	
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE); // GL_TEXTURE_WRAP_R is not in the ES2 header, hmm..
+#endif
+	
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	
+	
+	
+	unsigned char * data_px, * data_nx, * data_py, * data_ny, * data_pz, * data_nz;
+	
+	size = pos_x.getWidth();
+	
+	//cout << "ofxCubeMapOld::loadFromOfImages, size: " << size << "  bpp: " << pos_x.bpp << endl;
+	
+//	data_px = new unsigned char [size * size * 3];
+//	data_py = new unsigned char [size * size * 3];
+//	data_pz = new unsigned char [size * size * 3];
+	
+//	data_nx = new unsigned char [size * size * 3];
+//	data_ny = new unsigned char [size * size * 3];
+//	data_nz = new unsigned char [size * size * 3];
+	
+	data_px = pos_x.getPixels().getData();
+	data_py = pos_y.getPixels().getData();
+	data_pz = pos_z.getPixels().getData();    
+
+	data_nx = neg_x.getPixels().getData();
+	data_ny = neg_y.getPixels().getData();    
+	data_nz = neg_z.getPixels().getData();
+	
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGB, size, size, 0, GL_RGB, GL_UNSIGNED_BYTE, data_px); // positive x
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL_RGB, size, size, 0, GL_RGB, GL_UNSIGNED_BYTE, data_py); // positive y
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGB, size, size, 0, GL_RGB, GL_UNSIGNED_BYTE, data_pz); // positive z	
+	
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGB, size, size, 0, GL_RGB, GL_UNSIGNED_BYTE, data_nx); // negative x
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL_RGB, size, size, 0, GL_RGB, GL_UNSIGNED_BYTE, data_ny); // negative y
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGB, size, size, 0, GL_RGB, GL_UNSIGNED_BYTE, data_nz); // negative z	
+}
+
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::initEmptyTextures( int _size, GLuint _channels, GLuint _storageFormat )
+{
+	size = _size;
+	
+	//create a texture object
+	glGenTextures(1, &textureObjectID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureObjectID);
+	
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	
+#ifndef TARGET_OPENGLES
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE); // GL_TEXTURE_WRAP_R is not in the ES2 header, hmm..
+#endif
+	
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	
+	// set textures
+	for (int i = 0; i < 6; ++i)
+	{
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, _channels, size, size, 0, GL_RGB, _storageFormat, 0);
+	}
+		
+	ofFbo::Settings fboSettings = ofFbo::Settings();
+	
+	fboSettings.width  = size;
+	fboSettings.height = size;
+
+	fboSettings.numColorbuffers = 6; // we intend to attach our own colour buffers
+	
+	fboSettings.useDepth = true;
+	
+	fboSettings.textureTarget = GL_TEXTURE_2D;
+	
+	fbo.allocate( fboSettings );
+}
+
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::beginDrawingInto2D( GLuint _face )
+{
+	fbo.begin();
+	
+	// Bind the face we wanted to the FBO
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, _face, textureObjectID, 0 );
+	
+}
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::endDrawingInto2D()
+{
+	fbo.end();
+}
+
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::beginDrawingInto3D( GLuint _face )
+{
+	ofPushView();
+
+	beginDrawingInto2D( _face );	
+	
+	glMatrixMode( GL_PROJECTION );
+	glLoadIdentity();
+	
+	glLoadMatrixf( getProjectionMatrix().getPtr() );
+		
+	glMatrixMode( GL_MODELVIEW );
+	ofPushMatrix();
+	glLoadMatrixf( getLookAtMatrixForFace( _face ).getPtr() );
+	
+}
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::endDrawingInto3D()
+{
+	ofPopView();
+
+	ofPopMatrix();
+	
+	fbo.end();
+}
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::bind()
+{
+	bindToTextureUnit( 0 );
+}
+
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::bindToTextureUnit( int pos )
+{
+	boundToTextureUnit = pos;
+	
+	glActiveTexture( GL_TEXTURE0 + pos );
+	glEnable( GL_TEXTURE_CUBE_MAP );
+	glBindTexture( GL_TEXTURE_CUBE_MAP, textureObjectID );
+}
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::unbind()
+{
+	glActiveTexture( GL_TEXTURE0 + boundToTextureUnit );
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0 );
+	glDisable( GL_TEXTURE_CUBE_MAP );
+	
+	glActiveTexture( GL_TEXTURE0 );
+}
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::drawSkybox( float _size )
+{
+	
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer( 	3, GL_FLOAT, sizeof(ofVec3f), &cubemapVertices.data()->x );
+	
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer( 	3, GL_FLOAT, sizeof(ofVec3f), &cubemapTexCoords.data()->x );
+	
+	ofPushMatrix();
+		ofScale( _size, _size, _size );
+		glDrawArrays(GL_TRIANGLES, 0, cubemapVertices.size() );
+	glPopMatrix();
+	
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+}
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::debugDrawCubemapCameras()
+{
+	for( int i = 0; i < 6; i++ )
+	{
+		GLuint face = GL_TEXTURE_CUBE_MAP_POSITIVE_X + i;
+		ofMatrix4x4 modelViewProjectionMatrix = getLookAtMatrixForFace( face ) * getProjectionMatrix();
+		
+		ofMatrix4x4 inverseCameraMatrix;
+		inverseCameraMatrix.makeInvertOf( modelViewProjectionMatrix );
+		
+		ofPushMatrix();
+			
+			glMultMatrixf( inverseCameraMatrix.getPtr() );
+	
+			ofNoFill();
+		
+				// Draw box in camera space, i.e. frustum in world space, box -1, -1, -1 to +1, +1, +1
+				ofBox(0, 0, 0, 2.0f);
+			
+			ofFill();
+		
+		ofPopMatrix();
+		
+	}
+}
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::debugDrawCubemapFaces( float _faceSize, float _border )
+{
+	for( int i = 0; i < 6; i++ )
+	{
+		int tmpX = (i * _faceSize) + (i * _border);
+		int tmpY = 0;
+		drawFace( GL_TEXTURE_CUBE_MAP_POSITIVE_X + i , tmpX, tmpY, _faceSize, _faceSize );
+	}
+}
+
+//--------------------------------------------------------------
+unsigned int ofxCubeMapOld::getTextureID()
+{
+	return textureObjectID;
+}
+
+//--------------------------------------------------------------
+int ofxCubeMapOld::getWidth()
+{
+	return size;
+}
+
+//--------------------------------------------------------------
+int ofxCubeMapOld::getHeight()
+{
+	return size;
+}
+
+//--------------------------------------------------------------
+float ofxCubeMapOld::getFov()
+{
+	return fov;
+}
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::setFov( float _fov )
+{
+	fov = _fov;
+}
+
+//--------------------------------------------------------------
+ofVec2f ofxCubeMapOld::getNearFar()
+{
+	return ofVec2f( nearZ, farZ );
+}
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::setNearFar( ofVec2f _nearFar )
+{
+	nearZ = _nearFar.x;
+	farZ  = _nearFar.y;
+}
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::setPosition( ofVec3f& _pos )
+{
+	cubeMapCamerasRenderPosition.set( _pos.x, _pos.y, _pos.z );
+}
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::setPosition( float _x, float _y, float _z )
+{
+	cubeMapCamerasRenderPosition.set( _x, _y, _z );
+}
+
+//--------------------------------------------------------------
+ofVec3f* ofxCubeMapOld::getPosition()
+{
+	return &cubeMapCamerasRenderPosition;
+}
+
+//--------------------------------------------------------------
+ofMatrix4x4 ofxCubeMapOld::getProjectionMatrix()
+{
+	ofMatrix4x4 perspectiveMatrix;
+	perspectiveMatrix.makePerspectiveMatrix(fov, size/(float)size, nearZ, farZ );
+	
+	return perspectiveMatrix;
+}
+
+//--------------------------------------------------------------
+ofMatrix4x4 ofxCubeMapOld::getLookAtMatrixForFace( GLuint _face )
+{
+	ofMatrix4x4 lookAt;
+	
+	switch ( _face )
+	{
+		case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
+			lookAt.makeLookAtViewMatrix( ofVec3f( 0.0f, 0.0f, 0.0f), ofVec3f(  1.0f,  0.0f,  0.0f), ofVec3f(  0.0f, -1.0f,  0.0f) );
+			break;
+		case GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
+			lookAt.makeLookAtViewMatrix( ofVec3f( 0.0f, 0.0f, 0.0f), ofVec3f( -1.0f,  0.0f,  0.0f), ofVec3f(  0.0f, -1.0f,  0.0f) );
+			break;
+		case GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
+			lookAt.makeLookAtViewMatrix( ofVec3f( 0.0f, 0.0f, 0.0f), ofVec3f(  0.0f,  1.0f,  0.0f), ofVec3f(  0.0f,  0.0f,  1.0f) );
+			break;
+		case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
+			lookAt.makeLookAtViewMatrix( ofVec3f( 0.0f, 0.0f, 0.0f), ofVec3f(  0.0f, -1.0f,  0.0f), ofVec3f(  0.0f,  0.0f, -1.0f) );
+			break;
+		case GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
+			lookAt.makeLookAtViewMatrix( ofVec3f( 0.0f, 0.0f, 0.0f), ofVec3f(  0.0f,  0.0f,  1.0f), ofVec3f(  0.0f, -1.0f,  0.0f) );
+			break;
+		case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
+			lookAt.makeLookAtViewMatrix( ofVec3f( 0.0f, 0.0f, 0.0f), ofVec3f(  0.0f,  0.0f, -1.0f), ofVec3f(  0.0f, -1.0f,  0.0f) );
+			break;
+		default:
+			ofLogError() << "ofxCubeMapOld::getLookAtMatrixForFace, passed in invalid face.";
+			break;
+    }
+	
+	//lookAt.translate( cubeMapCamerasRenderPosition.x, cubeMapCamerasRenderPosition.y, cubeMapCamerasRenderPosition.z );
+	lookAt.glTranslate( -cubeMapCamerasRenderPosition.x, -cubeMapCamerasRenderPosition.y, -cubeMapCamerasRenderPosition.z );
+	
+	return lookAt;
+}
+
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::drawFace( GLuint _face, float _x, float _y )
+{
+	drawFace( _face, _x, _y, size, size );
+}
+
+//--------------------------------------------------------------
+//
+//  Used to draw the faces to screen in 2D, usually to debug.
+//	The code would look something like:
+//
+//  for( int i = 0; i < 6; i++ )
+//  {
+// 	   myFboCubeMap.drawFace( GL_TEXTURE_CUBE_MAP_POSITIVE_X + i , i * 100, 0, 100, 100 );
+//  }
+//
+void ofxCubeMapOld::drawFace( GLuint _face, float _x, float _y, float _w, float _h )
+{
+	// create a rect with the correct 3D texture coordinates, draw to screen
+	scratchVertices.clear();
+	scratchTexCoords.clear();
+	scratchIndices.clear();
+	
+	switch ( _face )
+	{
+		case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
+			
+			scratchTexCoords.push_back( ofVec3f( 1.0f, -1.0f,  1.0f) );
+			scratchTexCoords.push_back( ofVec3f( 1.0f,  1.0f,  1.0f) );
+			scratchTexCoords.push_back( ofVec3f( 1.0f,  1.0f, -1.0f) );
+			scratchTexCoords.push_back( ofVec3f( 1.0f, -1.0f, -1.0f) );
+			
+			break;
+			
+		case GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
+			
+			scratchTexCoords.push_back( ofVec3f( -1.0f, -1.0f, -1.0f) );
+			scratchTexCoords.push_back( ofVec3f( -1.0f,  1.0f, -1.0f) );
+			scratchTexCoords.push_back( ofVec3f( -1.0f,  1.0f,  1.0f) );
+			scratchTexCoords.push_back( ofVec3f( -1.0f, -1.0f,  1.0f) );
+			
+			break;
+			
+		case GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
+			
+			scratchTexCoords.push_back( ofVec3f( -1.0f,  1.0f,  1.0f) );
+			scratchTexCoords.push_back( ofVec3f( -1.0f,  1.0f, -1.0f) );
+			scratchTexCoords.push_back( ofVec3f(  1.0f,  1.0f, -1.0f) );
+			scratchTexCoords.push_back( ofVec3f(  1.0f,  1.0f,  1.0f) );
+			
+			break;
+			
+		case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
+			
+			scratchTexCoords.push_back( ofVec3f( -1.0f, -1.0f, -1.0f) );
+			scratchTexCoords.push_back( ofVec3f( -1.0f, -1.0f,  1.0f) );
+			scratchTexCoords.push_back( ofVec3f(  1.0f, -1.0f,  1.0f) );
+			scratchTexCoords.push_back( ofVec3f(  1.0f, -1.0f, -1.0f) );
+			
+			break;
+			
+		case GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
+			
+			scratchTexCoords.push_back( ofVec3f( -1.0f, -1.0f,  1.0f) );
+			scratchTexCoords.push_back( ofVec3f( -1.0f,  1.0f,  1.0f) );
+			scratchTexCoords.push_back( ofVec3f(  1.0f,  1.0f,  1.0f) );
+			scratchTexCoords.push_back( ofVec3f(  1.0f, -1.0f,  1.0f) );
+			
+			break;
+			
+		case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
+			
+			scratchTexCoords.push_back( ofVec3f(  1.0f, -1.0f, -1.0f) );
+			scratchTexCoords.push_back( ofVec3f(  1.0f,  1.0f, -1.0f) );
+			scratchTexCoords.push_back( ofVec3f( -1.0f,  1.0f, -1.0f) );
+			scratchTexCoords.push_back( ofVec3f( -1.0f, -1.0f, -1.0f) );
+			
+			break;
+			
+		default:
+			
+			ofLogError() << "ofxCubeMapOld::drawFace, passed in invalid face.";
+			
+			break;
+	}
+	
+	scratchVertices.push_back( ofVec3f( _x, 		_y + _h, 	0.0f ) );
+	scratchVertices.push_back( ofVec3f( _x, 		_y, 		0.0f ) );
+	scratchVertices.push_back( ofVec3f( _x + _w, 	_y, 		0.0f ) );
+	scratchVertices.push_back( ofVec3f( _x + _w, 	_y + _h, 	0.0f ) );
+	
+	scratchIndices.push_back( 0 );
+	scratchIndices.push_back( 1 );
+	scratchIndices.push_back( 2 );
+	
+	scratchIndices.push_back( 0 );
+	scratchIndices.push_back( 2 );
+	scratchIndices.push_back( 3 );
+	
+	// swap all this for an ofMesh when it supports ofVec3f tex coordinates
+	
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer( 	3, GL_FLOAT, sizeof(ofVec3f), &scratchVertices.data()->x );
+	
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer( 	3, GL_FLOAT, sizeof(ofVec3f), &scratchTexCoords.data()->x );
+	
+	bind();
+	
+#ifdef TARGET_OPENGLES
+	glDrawElements( GL_TRIANGLES, scratchIndices.size(), GL_UNSIGNED_SHORT, 	scratchIndices.data() );
+#else
+	glDrawElements( GL_TRIANGLES, scratchIndices.size(), GL_UNSIGNED_INT, 		scratchIndices.data() );
+#endif
+	
+	unbind();
+	
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	
+}
+
+//--------------------------------------------------------------
+string ofxCubeMapOld::getDescriptiveStringForFace( GLuint _face )
+{
+	string tmpName = "";
+	switch ( _face )
+	{
+		case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
+			tmpName = "Pos X";
+			break;
+		case GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
+			tmpName = "Neg X";
+			break;
+		case GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
+			tmpName = "Pos Y";
+			break;
+		case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
+			tmpName = "Neg Y";
+			break;
+		case GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
+			tmpName = "Pos Z";
+			break;
+		case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
+			tmpName = "Neg Z";
+			break;
+		default:
+			ofLogError() << "ofxCubeMapOld::descriptiveStringForFace, passed in invalid face.";
+			break;
+    }
+	
+	return tmpName;
+	
+}
+
+//--------------------------------------------------------------
+void ofxCubeMapOld::setupSkyBoxVertices()
+{
+	
+	//ofScale( _size, _size, _size );
+	//ofScale( _size / 2.0f, _size / 2.0f, _size / 2.0f );
+	
+	float fExtent = 1.0f / 2.0f;
+	
+	
+	
+	///////////////////////////////////////////////
+	//  Postive X
+	cubemapTexCoords.push_back( ofVec3f(1.0f, -1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, -fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, -1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, -fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, 1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f(1.0f, -1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, -fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, 1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, 1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, fExtent, fExtent) );
+	
+	
+	//////////////////////////////////////////////
+	// Negative X
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, -1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent , -fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, -1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, -fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, 1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, -1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent , -fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, 1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, 1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, fExtent, -fExtent) );
+		
+	//////////////////////////////////////////////////
+	// Positive Y
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, 1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, 1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, 1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, 1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, 1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, 1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, fExtent, -fExtent) );
+	
+	///////////////////////////////////////////////////
+	// Negative Y
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, -1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, -fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, -1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, -fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, -1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, -fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, -1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, -fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, -1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, -fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, -1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, -fExtent, fExtent) );
+	
+	
+	////////////////////////////////////////////////
+	// Positive Z
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, -1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, -fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, -1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, -fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, 1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, -1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, -fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, 1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, fExtent, fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, 1.0f, 1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, fExtent, fExtent) );
+	
+	
+	////////////////////////////////////////////////
+	// Negative Z
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, -1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, -fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, -1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, -fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, 1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, -1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, -fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( -1.0f, 1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(-fExtent, fExtent, -fExtent) );
+	
+	cubemapTexCoords.push_back( ofVec3f( 1.0f, 1.0f, -1.0f) );
+	cubemapVertices.push_back( ofVec3f(fExtent, fExtent, -fExtent) );
+	
+}
+
+########## END OF ./src/ofxCubeMapOld.cpp 
+
+
+########## START OF ./src/ofxCubeMapOld.h
+/*
+ *  Inspired by Cinder CubeMap David Wicks on 2/27/09.
+ *  Ported to oF by brenfer on 7/2/10.
+ *  Updated for of 007 and extended by James George 2/13/11
+ *
+ *  Made working-happily by Joshy-pants and James George
+ * 
+ *  Not copyrighted, no rights reserved, long live Christiania.
+ *
+ *  Edited some more by Andreas Müller. Come on, edit moar!
+ * 
+ */
+
+
+/*
+ * OpenGL defines the cube faces in this order:
+ * 
+ * #define GL_TEXTURE_CUBE_MAP_POSITIVE_X    0x8515
+ * #define GL_TEXTURE_CUBE_MAP_NEGATIVE_X    0x8516
+ *
+ * #define GL_TEXTURE_CUBE_MAP_POSITIVE_Y    0x8517
+ * #define GL_TEXTURE_CUBE_MAP_NEGATIVE_Y    0x8518
+ *
+ * #define GL_TEXTURE_CUBE_MAP_POSITIVE_Z    0x8519
+ * #define GL_TEXTURE_CUBE_MAP_NEGATIVE_Z    0x851A
+ *
+ * You can therefore loop through all of them like this
+ *
+ *
+ *   for (int i = 0; i < 6; ++i)
+ *   {
+ * 	    someFunction( GL_TEXTURE_CUBE_MAP_POSITIVE_X + i );
+ *   }
+ *
+ *
+ */
+
+
+#ifndef	OFX_CUBE_MAP_H
+#define OFX_CUBE_MAP_H
+
+#include "ofMain.h"
+
+class ofxCubeMapOld
+{
+	public:
+		
+		ofxCubeMapOld();
+
+		// Init ---------------------
+	
+		// These should all be the same size and all power of two, i.e. 256, 512, 1024 (I think).
+		void loadImages( string pos_x, string neg_x,
+						 string pos_y, string neg_y,
+						 string pos_z, string neg_z );
+		
+		void loadFromOfImages( ofImage pos_x, ofImage neg_x,
+							   ofImage pos_y, ofImage neg_y,
+							   ofImage pos_z, ofImage neg_z );
+
+		// Drawing ------------------
+	
+		void initEmptyTextures( int _size, GLuint _channels = GL_RGB, GLuint _storageFormat = GL_UNSIGNED_BYTE );				// Initialize empty textures to draw on later.
+		
+		void bind();
+		void bindToTextureUnit( int pos ); 		// Todo: just overload bind with a default parameter of 0
+		void unbind();
+	
+		void drawSkybox( float _size ); 		// Todo: why does this not bind the cubemap texture?!
+	
+		// Drawing into -------------
+	
+		void beginDrawingInto2D( GLuint _face );								// Pass in GL_TEXTURE_CUBE_MAP_POSITIVE_X, etc.
+		void endDrawingInto2D();
+	
+		void beginDrawingInto3D( GLuint _face );								// Gives you camera looking in the direction of the cube face
+		void endDrawingInto3D();
+		
+		// Misc ---------------------
+	
+		void debugDrawCubemapCameras();
+		void debugDrawCubemapFaces( float _faceSize, float _border = 0.0f );
+
+		void drawFace( GLuint _face, float _x, float _y );
+		void drawFace( GLuint _face, float _x, float _y, float _w, float _h );
+	
+		unsigned int getTextureID();
+	
+		int getWidth();
+		int getHeight();
+	
+		float getFov();
+		void  setFov( float _fov );
+			
+		ofVec2f getNearFar();
+		void 	setNearFar( ofVec2f _nearFar );
+	
+		void setPosition( ofVec3f& _pos );
+		void setPosition( float _x, float _y, float _z );
+		ofVec3f* getPosition();
+
+		ofMatrix4x4 getProjectionMatrix();
+		ofMatrix4x4 getLookAtMatrixForFace( GLuint _face );
+
+	private:
+		
+		string getDescriptiveStringForFace( GLuint _face );
+		void setupSkyBoxVertices();
+	
+		int size;
+	
+		unsigned int textureObjectID;
+		
+		ofFbo fbo;
+			
+		// swap for an ofMesh when it supports ofVec3f tex coordinates
+		vector<ofVec3f> scratchVertices;
+		vector<ofVec3f> scratchTexCoords;
+		vector<ofIndexType> scratchIndices;
+	
+		vector<ofVec3f> cubemapVertices;
+		vector<ofVec3f> cubemapTexCoords;
+	
+		float fov;
+		float nearZ;
+		float farZ;
+	
+		ofVec3f		cubeMapCamerasRenderPosition;
+	
+		int boundToTextureUnit;
+};
+
+#endif //OFX_CUBE_MAP_H
+
+
+########## END OF ./src/ofxCubeMapOld.h 
+
+
+########## START OF ./src/ofxEquiMapRender.cpp
+#include "ofxEquiMapRender.h"
+
+#ifndef STRINGIFY
+#define STRINGIFY(A) #A
+#endif
+
+namespace ofxEquiMapRender {
+    static string warp_frag_shader_str = STRINGIFY(
+       uniform samplerCube envMap;
+       
+       void main() {
+           
+           vec2 tc = gl_TexCoord[0].st / vec2(2.0) + 0.5;  //only line modified from the shader toy example
+           vec2 thetaphi = ((tc * 2.0) - vec2(1.0)) * vec2(3.1415926535897932384626433832795, 1.5707963267948966192313216916398);
+           vec3 rayDirection = vec3(cos(thetaphi.y) * cos(thetaphi.x), sin(thetaphi.y), cos(thetaphi.y) * sin(thetaphi.x));
+           
+           gl_FragColor = textureCube(envMap, rayDirection);
+       }
+       );
+    
+    void Renderer::setup(int size, Scene* s, int internalformat)
+    {
+        int type = ofGetGlTypeFromInternal(internalformat);
+        int format = ofGetGLFormatFromInternal(internalformat);
+        cm.initEmptyTextures(size, format, type);
+        warpShader.setupShaderFromSource(GL_FRAGMENT_SHADER, warp_frag_shader_str);
+        warpShader.linkProgram();
+        registerScene(s);
+    }
+
+    void Renderer::render() {
+        if (!scene) {
+            return;
+        }
+        for (int i = 0; i < 6; i++) {
+            cm.beginDrawingInto3D( GL_TEXTURE_CUBE_MAP_POSITIVE_X + i );
+            ofClear(0);
+            // work around for ofLight issue caused by ofxCubeMap
+            ofLoadViewMatrix(ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
+            scene->drawEquiScene();
+            cm.endDrawingInto3D();
+        }
+    }
+    
+    void Renderer::draw(float x, float y, float w, float h) {
+        warpShader.begin();
+        warpShader.setUniform1i("envMap", 0);
+        cm.drawFace(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, x, y, w, h);
+        warpShader.end();
+    }
+
+    void Renderer::setPosition(const ofVec3f& p) {
+    ofVec3f p2 = p;
+    cm.setPosition(p2);
+    }
+
+    void Renderer::registerScene(Scene* s) {
+        scene = s;
+    }
+
+    void Renderer::setPosition(float x, float y, float z) {
+        cm.setPosition(x, y, z);
+    }
+
+    ofxCubeMapOld& Renderer::getCubeMap() {
+        return cm;
+    }
+    
+    void CustomFboRenderer::setup(int size, Scene* s, int internalformat, int numSamples)
+    {
+        Renderer::setup(size, s, internalformat);
+        // fbo.allocate(cm.getWidth(), cm.getHeight(), internalformat, numSamples);
+        for(int i = 0; i < 6; i++) {
+            ofFbo f;
+            f.allocate(cm.getWidth(), cm.getHeight(), internalformat, numSamples);
+            fbos.push_back(f);
+        }
+    }
+    
+    void CustomFboRenderer::setup(int size, Scene* s, ofFbo::Settings fbo_settings)
+    {
+        Renderer::setup(size, s, fbo_settings.internalformat);
+        // fbo.allocate(fbo_settings);
+        for(std::size_t i = 0; i < fbos.size(); i++) {
+            fbos[i].allocate(fbo_settings);
+        }
+    }
+    
+
+    void CustomFboRenderer::render() {
+        for (int i = 0; i < 6; ++i) {
+            fbos[i].begin();
+            ofClear(0);
+            ofPushView();
+            
+            glMatrixMode( GL_PROJECTION );
+            glLoadIdentity();
+            glLoadMatrixf( cm.getProjectionMatrix().getPtr() );
+            
+            glMatrixMode( GL_MODELVIEW );
+            glLoadIdentity();
+            glLoadMatrixf( cm.getLookAtMatrixForFace( GL_TEXTURE_CUBE_MAP_POSITIVE_X + i).getPtr() );
+            
+            // work around for ofLight issue caused by ofxCubeMap
+            ofLoadViewMatrix(ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
+            
+            scene->drawEquiScene();
+            
+            ofPopView();
+            fbos[i].end();
+            
+            cm.beginDrawingInto2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i);
+            ofClear(0);
+            fbos[i].draw(0, 0);
+            cm.endDrawingInto2D();
+        }
+    }
+
+    std::vector<ofFbo>& CustomFboRenderer::getFbos() {
+        return fbos;
+    }
+
+    // const std::vector<ofFbo>& CustomFboRenderer::getFbos() {
+    //     return fbos;
+    // }
+}
+########## END OF ./src/ofxEquiMapRender.cpp 
+
+
+########## START OF ./src/ofxEquiMapRender.h
+#pragma once
+
+#include "ofMain.h"
+#include "ofxCubeMapOld.h"
+
+namespace ofxEquiMapRender
+{
+    class Scene
+    {
+    public:
+        virtual ~Scene() {}
+        virtual void drawEquiScene() = 0;
+    };
+
+       
+    class Renderer
+    {
+    protected:
+        Scene* scene = NULL;
+        ofxCubeMapOld cm;
+        ofShader warpShader;
+    public:
+        void setup(int size, Scene* s, int internalformat = GL_RGB);
+        virtual void render();
+        void draw(float x, float y, float w, float h);
+            
+        void setPosition(const ofVec3f& p);
+        void registerScene(Scene* s);
+        void setPosition(float x, float y, float z);
+        ofxCubeMapOld& getCubeMap();
+
+        
+
+        // ofPixels getPixels() {
+        //     ofPixels pixels;
+        //     cm.getFacePixels(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, pixels);
+        //     return pixels;
+        // }
+        
+    };
+    
+    class CustomFboRenderer : public Renderer
+    {
+    protected:
+        // ofFbo fbo;
+        std::vector<ofFbo> fbos;
+    public:
+        void setup(int size, Scene* s, int internalformat = GL_RGB, int numSamples = 0);
+        void setup(int size, Scene* s, ofFbo::Settings fbo_settings);
+        void render() override;
+        
+        // ofFbo& getFbo() { return fbo; }
+        // const ofFbo& getFbo() const { return fbo; }
+
+        std::vector<ofFbo>& getFbos();
+        // const std::vector<ofFbo>& getFbos();
+    };
+};
+########## END OF ./src/ofxEquiMapRender.h 
