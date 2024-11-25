@@ -20,7 +20,7 @@ namespace ofxEquiMapRender
         ofxCubeMapOld cm;
         ofShader warpShader;
         bool renderEnabled = true; 
-        std::vector<ofFbo> fbos;
+        std::vector<ofFbo> skyBoxFbos;
         ofFbo warpedFbo;
     public:
         void setup(int size, Scene* s, int internalformat = GL_RGB);
@@ -40,37 +40,22 @@ namespace ofxEquiMapRender
         void drawWarpedFbo(float x, float y, float w, float h);
         
         
-
-        //testando aqui!
-        // const std::vector<ofFbo>& getFbos();
-        std::vector<ofFbo>& getFbos();
+        std::vector<ofFbo>& getSkyBoxFbos();
         ofFbo& getWarpedFbo();
 
         
-
-        // ofPixels getPixels() {
-        //     ofPixels pixels;
-        //     cm.getFacePixels(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, pixels);
-        //     return pixels;
-        // }
         
     };
     
     class CustomFboRenderer : public Renderer
     {
-    protected:
-        // ofFbo fbo;
-        // std::vector<ofFbo> fbos;
+    // protected:
+    //     // ofFbo fbo;
+    //     // std::vector<ofFbo> skyBoxFbos;
     public:
         void setup(int size, Scene* s, int internalformat = GL_RGB, int numSamples = 0);
         void setup(int size, Scene* s, ofFbo::Settings fbo_settings);
         void render() override;
-        // std::vector<ofFbo>& getFbos();
-        
-        // ofFbo& getFbo() { return fbo; }
-        // const ofFbo& getFbo() const { return fbo; }
-
-        
-        
+           
     };
 };

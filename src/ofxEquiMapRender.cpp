@@ -104,8 +104,8 @@ namespace ofxEquiMapRender {
         return cm;
     }
 
-    std::vector<ofFbo>& Renderer::getFbos() {
-        return fbos;
+    std::vector<ofFbo>& Renderer::getSkyBoxFbos() {
+        return skyBoxFbos;
     }
 
     ofFbo& Renderer::getWarpedFbo() {
@@ -121,7 +121,7 @@ namespace ofxEquiMapRender {
         for(int i = 0; i < 6; i++) {
             ofFbo f;
             f.allocate(cm.getWidth(), cm.getHeight(), internalformat, numSamples);
-            fbos.push_back(f);
+            skyBoxFbos.push_back(f);
         }
     }
     
@@ -129,14 +129,14 @@ namespace ofxEquiMapRender {
     {
         Renderer::setup(size, s, fbo_settings.internalformat);
         // fbo.allocate(fbo_settings);
-        for(std::size_t i = 0; i < fbos.size(); i++) {
-            fbos[i].allocate(fbo_settings);
+        for(std::size_t i = 0; i < skyBoxFbos.size(); i++) {
+            skyBoxFbos[i].allocate(fbo_settings);
         }
     }
 
     void CustomFboRenderer::render() {
         for (int i = 0; i < 6; ++i) {
-            fbos[i].begin();
+            skyBoxFbos[i].begin();
             ofClear(0);
             ofPushView();
             
@@ -154,21 +154,12 @@ namespace ofxEquiMapRender {
             scene->drawEquiScene();
             
             ofPopView();
-            fbos[i].end();
+            skyBoxFbos[i].end();
             
             cm.beginDrawingInto2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i);
             ofClear(0);
-            fbos[i].draw(0, 0);
+            skyBoxFbos[i].draw(0, 0);
             cm.endDrawingInto2D();
         }
     }
-
-//    std::vector<ofFbo>& CustomRenderer::getFbos() {
-//         return fbos;
-//     }
-    
-
-    // const std::vector<ofFbo>& CustomFboRenderer::getFbos() {
-    //     return fbos;
-    // }
 }

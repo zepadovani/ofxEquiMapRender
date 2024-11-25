@@ -1,18 +1,30 @@
 #include "ofApp.h"
+/*
+This example demonstrates how to use the ofxEquiMapRender class to render a scene in normal and equirectangular 
+projection and save the cube map and equirectangular projection to image files.
+*/
+
 
 void ofApp::setup() {
+    // Set vertical sync to true to avoid tearing
     ofSetVerticalSync(true);
+    // Set the frame rate to 60 frames per second
     ofSetFrameRate(60);
+    // Clear the screen with a black color
     ofClear(0);
+    // Setup the equiMapRender with a resolution of 1024
     em.setup(1024, this);
+    // Setup the custom FBO renderer with a resolution of 1024, GL_RGB format, and 4 samples
     em2.setup(1024, this, GL_RGB, 4);
-    easyCam.setDistance(500); // Inicializa a easyCam
+    // Set the initial distance of the easyCam
+    easyCam.setDistance(500);
     
+    // Initialize flags for saving images and mode
     bSaveEquiRect = false;
     bSaveCubeMap = false;
     equiRectangularMode = false;
 
-    // Cria 200 cubos com posições e tamanhos aleatórios
+    // Create 30 random boxes with random sizes and positions
     for (int i = 0; i < 30; i++) {
         float size = ofRandom(50, 200);
         float x = ofRandom(-500, 500);
@@ -24,80 +36,70 @@ void ofApp::setup() {
         box.setPosition(x, y, z);
         boxes.push_back(box);
 
-        // Gera uma cor aleatória e armazena no vetor
         ofColor color(ofRandom(255), ofRandom(255), ofRandom(255));
         colors.push_back(color);
     }
 }
 
 void ofApp::drawEquiScene() {
+    // Save the current style settings
     ofPushStyle();
+    // Set the line width for drawing
     ofSetLineWidth(3);
 
-    // Desenha todos os cubos com as cores geradas na inicialização
+    // Draw each box with its corresponding color
     for (std::size_t i = 0; i < boxes.size(); i++) {
-        ofSetColor(colors[i]); // Usa a cor correspondente do vetor
+        ofSetColor(colors[i]);
         boxes[i].draw();
     }
-
+    // Restore the previous style settings
     ofPopStyle();
 }
 
 void ofApp::update() {
-    if(em.isRenderEnabled()){ // Só renderiza o cubemap se estiver habilitado
-        em.render(); // Renderiza para o cubemap (chama renderToCubeMap() internamente)
+    // Render the equiMapRender if it is enabled
+    if(em.isRenderEnabled()){
+        em.render();
     }
 
-    if(em2.isRenderEnabled()){ // Só renderiza o cubemap se estiver habilitado
-        em2.render(); // Renderiza para o cubemap (chama renderToCubeMap() internamente)
+    // Render the custom FBO renderer if it is enabled
+    if(em2.isRenderEnabled()){
+        em2.render();
     }
-    // em.render();
-    // em2.render();
+
+    // Define the names of the cube map faces
     std::vector<string> faces = {"X+", "X-", "Y+", "Y-", "Z+", "Z-"};
 
-
+    // Save the cube map faces to image files if bSaveCubeMap is true
     if (bSaveCubeMap) {
         ofPixels pixels;
-        std::vector<ofFbo>& fbos = em2.getFbos(); // Pega os FBOs da `em2`
+        std::vector<ofFbo>& fbos = em2.getSkyBoxFbos();
         for (std::size_t i = 0; i < fbos.size(); i++) {
-            fbos[i].readToPixels(pixels); // Lê os pixels de cada FBO
-            ofSaveImage(pixels, ofToString(i) + "_cubeMapFace_" + faces[i] + ".png"); // Salva a imagem
+            fbos[i].readToPixels(pixels);
+            ofSaveImage(pixels, ofToString(i) + "_cubeMapFace_" + faces[i] + ".png");
         }
         
         bSaveCubeMap = false; 
     }
 
+    // Save equirectangular projection to an image file if bSaveEquiRect is true
     if (bSaveEquiRect) {
         ofPixels pixels;
         em2.drawWarpedToFbo();
         ofFbo& em2fbo = em2.getWarpedFbo();
         em2fbo.readToPixels(pixels);
         ofSaveImage(pixels, "equiRectangular.png");
-        // em2.getCubeMap().getFaceFbo(GL_TEXTURE_CUBE_MAP_POSITIVE_Z).readToPixels(pixels); // Usa em2!
-        // ofSaveImage(pixels, "equiRectangular.png");
-        // bSaveEquiRect = false;
-    
+        bSaveEquiRect = false;   
     }
-
-    
-
-    // if (bSaveCubeMap) {
-    //     ofPixels pixels;
-    //     std::vector<string> faces = {"X+", "X-", "Y+", "Y-", "Z+", "Z-"};
-    //     for (int i = 0; i < 6; i++) {
-    //         // Corrigido: Usa getFaceFbo() do CustomFboRenderer (em2)
-    //         em2.getCubeMap().getFaceFbo(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i).readToPixels(pixels); 
-    //         ofSaveImage(pixels, ofToString(i) + "_cubeMapFace_" + faces[i] + ".png"); 
-    //     }
-    //     bSaveCubeMap = false;
-    // }
 }
 
 void ofApp::draw() {
+    // Clear the screen with a black color
     ofClear(0);
 
+    // Draw the scene in equirectangular mode or normal mode
     if(equiRectangularMode){
-
+        // Draw the renderer or custom FBO renderer based on space key press
         if (ofGetKeyPressed(' ')) {
             em.draw(0, 0, ofGetWidth(), ofGetHeight());
             ofDrawBitmapStringHighlight("Renderer", 10, 40);
@@ -106,28 +108,29 @@ void ofApp::draw() {
             ofDrawBitmapStringHighlight("CustomFboRenderer", 10, 40);
         }
     } else {
+        // Draw the scene using the easyCam
         easyCam.begin();
         drawEquiScene();
         easyCam.end();
     }
 
+    // Display the current frame rate
     ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 10, 20);
 }
 
 void ofApp::keyPressed(int key) {
- 
+    // Set flags to save equirectangular and cube map images when 's' key is pressed
     if (key == 's') {
         bSaveEquiRect = true;
         bSaveCubeMap = true;
     };
-    
-    if (key == 'm') { // Alterna entre os modos de visualização com a tecla 'm'
+
+    // Toggle equirectangular mode and adjust window shape when 'm' key is pressed
+    if (key == 'm') {
         equiRectangularMode = !equiRectangularMode;
         if (equiRectangularMode) {
-            // Maximiza a janela para o modo equirretangular
-             ofSetWindowShape(2048, 1024); // Resolução típica equirretangular
+             ofSetWindowShape(2048, 1024); 
         } else {
-           // Volta para as dimensões padrão (defina as dimensões desejadas)
             ofSetWindowShape(1088, 720);
         }
     }

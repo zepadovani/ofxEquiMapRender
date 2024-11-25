@@ -1,4 +1,7 @@
 #include "ofApp.h"
+/*
+Based on the original example by Yuya Hanai.
+*/
 
 void ofApp::setup() {
     ofSetVerticalSync(true);
